@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>号方 HowFund — 量化与金融科技</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #f54e00;
+            --primary-active: #d04200;
+            --ink: #26251e;
+            --body: #5a5852;
+            --body-strong: #26251e;
+            --muted: #807d72;
+            --muted-soft: #a09c92;
+            --hairline: #e6e5e0;
+            --hairline-soft: #efeee8;
+            --hairline-strong: #cfcdc4;
+            --canvas: #f7f7f4;
+            --canvas-soft: #fafaf7;
+            --surface-card: #ffffff;
+            --surface-strong: #e6e5e0;
+            --on-primary: #ffffff;
+            --success: #1f8a65;
+            --font-display: 'Inter', system-ui, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+            --nav-height: 64px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-snap-type: y mandatory;
+        }
+
+        body {
+            font-family: var(--font-display);
+            font-weight: 400;
+            line-height: 1.5;
+            color: var(--body);
+            background-color: var(--canvas);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--nav-height);
+            z-index: 1000;
+            background-color: rgba(247, 247, 244, 0.92);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.3s ease, background-color 0.3s ease;
+        }
+
+        .nav.scrolled {
+            border-bottom-color: var(--hairline);
+            background-color: rgba(247, 247, 244, 0.98);
+        }
+
+        .nav-inner {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 40px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            gap: 10px;
+        }
+
+        .nav-logo img {
+            height: 28px;
+            width: auto;
+        }
+
+        .nav-logo span {
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--ink);
+            letter-spacing: -0.36px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 32px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 1.4;
+            color: var(--body);
+            transition: color 0.2s ease;
+            letter-spacing: 0;
+        }
+
+        .nav-links a:hover {
+            color: var(--ink);
+        }
+
+        .nav-cta {
+            background-color: var(--primary);
+            color: var(--on-primary);
+            padding: 8px 18px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 1.0;
+            text-decoration: none;
+            transition: background-color 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            height: 36px;
+        }
+
+        .nav-cta:hover {
+            background-color: var(--primary-active);
+            color: var(--on-primary);
+        }
+
+        .nav-mobile-btn {
+            display: none;
+            flex-direction: column;
+            gap: 4px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        .nav-mobile-btn span {
+            width: 22px;
+            height: 1.5px;
+            background-color: var(--ink);
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+
+        .hero {
+            position: relative;
+            height: 100vh;
+            min-height: 600px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .hero-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
+        }
+
+        .hero-mask {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .hero-mask img,
+        .hero-mask svg {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 1.0;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: none;
+            font-family: var(--font-display);
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: var(--on-primary);
+            padding: 12px 24px;
+            height: 44px;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-active);
+        }
+
+        .btn-secondary {
+            background-color: var(--surface-card);
+            color: var(--ink);
+            padding: 11px 23px;
+            height: 44px;
+            border: 1px solid var(--hairline-strong);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--ink);
+        }
+
+        .btn-ghost {
+            background-color: transparent;
+            color: var(--ink);
+            padding: 11px 23px;
+            height: 44px;
+        }
+
+        .btn-ghost:hover {
+            color: var(--primary);
+        }
+
+        section {
+            padding: 80px 40px;
+            scroll-snap-align: center;
+        }
+
+        .section-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-label {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.88px;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .section-heading {
+            font-size: 36px;
+            font-weight: 400;
+            line-height: 1.2;
+            letter-spacing: -0.72px;
+            color: var(--ink);
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .section-desc {
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 1.5;
+            color: var(--body);
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 56px;
+        }
+
+        .about {
+            background-color: var(--canvas);
+        }
+
+        .about-content {
+            text-align: center;
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        .about-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 32px;
+        }
+
+        .about-logo img {
+            height: 48px;
+            width: auto;
+        }
+
+        .about-logo span {
+            font-size: 36px;
+            font-weight: 400;
+            color: var(--ink);
+            letter-spacing: -0.72px;
+        }
+
+        .about-quote {
+            font-size: 26px;
+            font-weight: 400;
+            line-height: 1.4;
+            letter-spacing: -0.325px;
+            color: var(--ink);
+            margin-bottom: 24px;
+        }
+
+        .about-quote em {
+            font-style: normal;
+            color: var(--primary);
+        }
+
+        .about-body {
+            font-size: 16px;
+            line-height: 1.8;
+            color: var(--body);
+            letter-spacing: 0.08px;
+        }
+
+        .about-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-top: 56px;
+            padding-top: 48px;
+            border-top: 1px solid var(--hairline);
+        }
+
+        .about-stat-value {
+            font-size: 36px;
+            font-weight: 400;
+            line-height: 1.1;
+            letter-spacing: -0.72px;
+            color: var(--ink);
+            margin-bottom: 8px;
+        }
+
+        .about-stat-label {
+            font-size: 13px;
+            color: var(--muted);
+            letter-spacing: 0;
+        }
+
+        .strategies {
+            background-color: var(--surface-card);
+            border-top: 1px solid var(--hairline);
+            border-bottom: 1px solid var(--hairline);
+        }
+
+        .strategies-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+
+        .strategy-card {
+            background-color: var(--canvas);
+            border: 1px solid var(--hairline);
+            border-radius: 12px;
+            padding: 32px;
+            transition: border-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .strategy-card:hover {
+            border-color: var(--hairline-strong);
+            transform: translateY(-2px);
+        }
+
+        .strategy-card-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background-color: var(--surface-card);
+            border: 1px solid var(--hairline);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        .strategy-card-tag {
+            display: inline-block;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.88px;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 12px;
+        }
+
+        .strategy-card-title {
+            font-size: 22px;
+            font-weight: 400;
+            line-height: 1.3;
+            letter-spacing: -0.11px;
+            color: var(--ink);
+            margin-bottom: 12px;
+        }
+
+        .strategy-card-desc {
+            font-size: 14px;
+            line-height: 1.7;
+            color: var(--body);
+        }
+
+        .tech {
+            background-color: var(--canvas);
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1px;
+            background-color: var(--hairline);
+            border: 1px solid var(--hairline);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .tech-item {
+            background-color: var(--surface-card);
+            padding: 40px 36px;
+        }
+
+        .tech-item-index {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.88px;
+            text-transform: uppercase;
+            color: var(--primary);
+            margin-bottom: 12px;
+        }
+
+        .tech-item-title {
+            font-size: 18px;
+            font-weight: 600;
+            line-height: 1.4;
+            color: var(--ink);
+            margin-bottom: 12px;
+        }
+
+        .tech-item-body {
+            font-size: 14px;
+            line-height: 1.7;
+            color: var(--body);
+        }
+
+        .tech-item-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 16px;
+        }
+
+        .tech-tag {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.88px;
+            text-transform: uppercase;
+            color: var(--body);
+            background-color: var(--surface-strong);
+            padding: 4px 10px;
+            border-radius: 9999px;
+        }
+
+        .team {
+            background-color: var(--surface-card);
+            border-top: 1px solid var(--hairline);
+            border-bottom: 1px solid var(--hairline);
+            padding-top: 120px;
+            padding-bottom: 120px;
+        }
+
+        .team-content {
+            text-align: center;
+            max-width: 640px;
+            margin: 0 auto;
+        }
+
+        .team-avatar-area {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: var(--canvas-soft);
+            border: 1px solid var(--hairline);
+            margin: 0 auto 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-mono);
+            font-size: 24px;
+            color: var(--muted-soft);
+        }
+
+        .team-quote {
+            font-size: 18px;
+            font-weight: 400;
+            line-height: 1.6;
+            color: var(--ink);
+            margin-bottom: 16px;
+        }
+
+        .team-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--ink);
+            margin-bottom: 4px;
+        }
+
+        .team-role {
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        .contact {
+            background-color: var(--canvas);
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+            max-width: 900px;
+            margin: 0 auto;
+            padding-top: 16px;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        .contact-item-label {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.88px;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 8px;
+        }
+
+        .contact-item-value {
+            font-size: 16px;
+            color: var(--ink);
+            line-height: 1.6;
+        }
+
+        .contact-item-value a {
+            color: var(--ink);
+            text-decoration: none;
+            border-bottom: 1px solid var(--hairline-strong);
+            transition: border-color 0.2s ease, color 0.2s ease;
+        }
+
+        .contact-item-value a:hover {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .contact-input {
+            width: 100%;
+            padding: 12px 16px;
+            font-size: 14px;
+            font-family: var(--font-display);
+            color: var(--ink);
+            background-color: var(--surface-card);
+            border: 1px solid var(--hairline);
+            border-radius: 8px;
+            outline: none;
+            transition: border-color 0.2s ease;
+        }
+
+        .contact-input:focus {
+            border-color: var(--hairline-strong);
+        }
+
+        .contact-input::placeholder {
+            color: var(--muted-soft);
+        }
+
+        .contact-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .contact-submit {
+            align-self: flex-start;
+            background-color: var(--primary);
+            color: var(--on-primary);
+            border: none;
+            padding: 12px 28px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            font-family: var(--font-display);
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            line-height: 1.0;
+            height: 44px;
+        }
+
+        .contact-submit:hover {
+            background-color: var(--primary-active);
+        }
+
+        .footer {
+            scroll-snap-align: start;
+            background-color: var(--ink);
+            padding: 64px 40px 32px;
+            color: var(--on-primary);
+        }
+
+        .footer-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-top {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 48px;
+            padding-bottom: 48px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+            margin-bottom: 32px;
+        }
+
+        .footer-brand img {
+            height: 24px;
+            width: auto;
+            margin-bottom: 12px;
+        }
+
+        .footer-brand p {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.55);
+            line-height: 1.6;
+        }
+
+        .footer-col-title {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.88px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.4);
+            margin-bottom: 20px;
+        }
+
+        .footer-col-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .footer-col-links a {
+            color: rgba(255, 255, 255, 0.65);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s ease;
+        }
+
+        .footer-col-links a:hover {
+            color: var(--on-primary);
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .footer-bottom-left {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .footer-bottom-right {
+            display: flex;
+            gap: 24px;
+            font-size: 12px;
+        }
+
+        .footer-bottom-right a {
+            color: rgba(255, 255, 255, 0.4);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .footer-bottom-right a:hover {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .footer-disclaimer {
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.3);
+            line-height: 1.7;
+        }
+
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 1024px) {
+            .strategies-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-top {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .nav-mobile-btn {
+                display: flex;
+            }
+
+            .section-heading {
+                font-size: 28px;
+                letter-spacing: -0.5px;
+            }
+
+            section {
+                padding: 56px 24px;
+            }
+
+            .about-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .tech-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-top {
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .about-quote {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="nav" id="navbar">
+        <div class="nav-inner">
+            <a href="#" class="nav-logo">
+                <img src="asset/LOGO.svg" alt="号方 HowFund" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+                <span>号方</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#home">首页</a></li>
+                <li><a href="#about">关于</a></li>
+                <li><a href="#strategies">策略</a></li>
+                <li><a href="#tech">研究</a></li>
+                <li><a href="#team">团队</a></li>
+                <li><a href="#contact">联系</a></li>
+            </ul>
+            <a href="#contact" class="nav-cta">联系我们</a>
+            <button class="nav-mobile-btn" id="mobileMenuBtn" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <section class="hero" id="home">
+        <video class="hero-video" autoplay loop muted playsinline>
+            <source src="asset/background_video.mp4" type="video/mp4">
+        </video>
+        <div class="hero-mask">
+            <img src="asset/mask.svg" alt="">
+        </div>
+    </section>
+
+    <section class="about" id="about">
+        <div class="section-inner">
+            <div class="about-content animate-on-scroll">
+                <p class="section-label">About</p>
+                <div class="about-logo">
+                    <img src="asset/LOGO.svg" alt="号方 HowFund" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+                    <span>号方</span>
+                </div>
+                <p class="about-quote">国内领先的量化与金融科技团队。<br>循理为<em>号</em> &nbsp;|&nbsp; 立策为<em>方</em></p>
+                <p class="about-body">
+                    号方（HowFund）是一家以数据科学与系统化方法论为核心驱动力的量化投资机构。
+                    我们相信市场的复杂性可以被严谨的数学模型捕捉，投资的纪律性源于工程化的执行体系。
+                    团队汇聚了来自数学、物理、计算机与金融工程领域的顶尖人才，致力于以科技重新定义资产管理。
+                </p>
+                <div class="about-stats">
+                    <div>
+                        <div class="about-stat-value">50<span style="color:var(--primary);">+</span></div>
+                        <div class="about-stat-label">投研与工程团队成员</div>
+                    </div>
+                    <div>
+                        <div class="about-stat-value">8<span style="color:var(--primary);">年</span></div>
+                        <div class="about-stat-label">量化策略实盘经验</div>
+                    </div>
+                    <div>
+                        <div class="about-stat-value">PB<span style="color:var(--primary);">级</span></div>
+                        <div class="about-stat-label">多源另类数据体系</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="strategies" id="strategies">
+        <div class="section-inner">
+            <p class="section-label">Strategies</p>
+            <h2 class="section-heading">投资策略</h2>
+            <p class="section-desc">四大核心策略体系，覆盖多市场、多频段、多因子的系统化投资方法论</p>
+            <div class="strategies-grid">
+
+                <div class="strategy-card animate-on-scroll">
+                    <div class="strategy-card-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                        </svg>
+                    </div>
+                    <div class="strategy-card-tag">Strategy 01</div>
+                    <h3 class="strategy-card-title">指数增强</h3>
+                    <p class="strategy-card-desc">
+                        以沪深300、中证500等宽基指数为基准，通过多因子模型系统性地超配Alpha因子、低配风险因子，在严格控制跟踪误差的前提下获取稳定的超额收益。
+                    </p>
+                </div>
+
+                <div class="strategy-card animate-on-scroll">
+                    <div class="strategy-card-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="14" width="7" height="7"></rect>
+                            <rect x="3" y="14" width="7" height="7"></rect>
+                        </svg>
+                    </div>
+                    <div class="strategy-card-tag">Strategy 02</div>
+                    <h3 class="strategy-card-title">多因子量化</h3>
+                    <p class="strategy-card-desc">
+                        覆盖价值、成长、动量、质量、波动率、情绪等六大类因子，结合机器学习动态赋权，构建稳健的多空组合，适应不同市场环境。
+                    </p>
+                </div>
+
+                <div class="strategy-card animate-on-scroll">
+                    <div class="strategy-card-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="12" y1="20" x2="12" y2="10"></line>
+                            <line x1="18" y1="20" x2="18" y2="4"></line>
+                            <line x1="6" y1="20" x2="6" y2="16"></line>
+                        </svg>
+                    </div>
+                    <div class="strategy-card-tag">Strategy 03</div>
+                    <h3 class="strategy-card-title">宏观 CTA / 期货对冲</h3>
+                    <p class="strategy-card-desc">
+                        基于宏观基本面、跨资产动量与期限结构信号的系统化趋势跟踪策略，覆盖股指期货、商品期货与国债期货，实现跨资产分散化配置。
+                    </p>
+                </div>
+
+                <div class="strategy-card animate-on-scroll">
+                    <div class="strategy-card-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <circle cx="12" cy="12" r="6"></circle>
+                            <circle cx="12" cy="12" r="2"></circle>
+                        </svg>
+                    </div>
+                    <div class="strategy-card-tag">Strategy 04</div>
+                    <h3 class="strategy-card-title">AI 深度学习量化策略</h3>
+                    <p class="strategy-card-desc">
+                        利用Transformer、GNN等深度架构从高频交易数据与另类数据中提取非线性Alpha信号，结合强化学习优化执行算法，捕捉传统因子模型难以覆盖的收益来源。
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="tech" id="tech">
+        <div class="section-inner">
+            <p class="section-label">Infrastructure</p>
+            <h2 class="section-heading">投研实力与技术优势</h2>
+            <p class="section-desc">从数据到算力再到风控，全链路自研基础设施支撑策略持续迭代</p>
+            <div class="tech-grid">
+
+                <div class="tech-item animate-on-scroll">
+                    <div class="tech-item-index">01 / Data</div>
+                    <h3 class="tech-item-title">数据体系</h3>
+                    <p class="tech-item-body">
+                        多源另类数据采集体系，涵盖卫星图像、供应链图谱、舆情情绪、电商流水等非传统数据源。自研大数据清洗Pipeline，日处理TB级异构数据，构建高信噪比因子库。
+                    </p>
+                    <div class="tech-item-tags">
+                        <span class="tech-tag">另类数据</span>
+                        <span class="tech-tag">NLP 情绪分析</span>
+                        <span class="tech-tag">数据清洗</span>
+                    </div>
+                </div>
+
+                <div class="tech-item animate-on-scroll">
+                    <div class="tech-item-index">02 / Compute</div>
+                    <h3 class="tech-item-title">算力基建</h3>
+                    <p class="tech-item-body">
+                        自建GPU计算集群与分布式回测系统，支持万级因子并行计算。自研量化算法平台，覆盖因子挖掘、组合优化、交易执行全流程，策略研发周期缩短至小时级。
+                    </p>
+                    <div class="tech-item-tags">
+                        <span class="tech-tag">GPU 集群</span>
+                        <span class="tech-tag">分布式回测</span>
+                        <span class="tech-tag">算法平台</span>
+                    </div>
+                </div>
+
+                <div class="tech-item animate-on-scroll">
+                    <div class="tech-item-index">03 / Risk</div>
+                    <h3 class="tech-item-title">风控体系</h3>
+                    <p class="tech-item-body">
+                        全流程量化风控框架，覆盖事前因子检验、事中实时敞口监控、事后归因分析。支持极端场景压力测试与蒙特卡洛模拟，确保组合在不同市场环境下具备强韧抗风险能力。
+                    </p>
+                    <div class="tech-item-tags">
+                        <span class="tech-tag">实时风控</span>
+                        <span class="tech-tag">压力测试</span>
+                        <span class="tech-tag">归因分析</span>
+                    </div>
+                </div>
+
+                <div class="tech-item animate-on-scroll">
+                    <div class="tech-item-index">04 / Talent</div>
+                    <h3 class="tech-item-title">投研团队</h3>
+                    <p class="tech-item-body">
+                        团队核心成员来自国内外顶尖高校与头部量化机构，涵盖数学、物理、计算机、金融工程等学科背景。以工程师文化为底色，以数据驱动决策为核心准则。
+                    </p>
+                    <div class="tech-item-tags">
+                        <span class="tech-tag">名校博士</span>
+                        <span class="tech-tag">数理背景</span>
+                        <span class="tech-tag">工程师文化</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="team" id="team">
+        <div class="section-inner">
+            <div class="team-content animate-on-scroll">
+                <p class="section-label">Team</p>
+                <h2 class="section-heading">核心团队</h2>
+                <div class="team-avatar-area">HF</div>
+                <p class="team-quote">
+                    "我们是一支由数学家、物理学家和工程师组成的团队。我们相信市场的复杂性可以被严谨的模型所捕捉，而投资的纪律性源于工程化的执行体系。"
+                </p>
+                <p class="team-name">号方投研团队</p>
+                <p class="team-role">Quantitative Research &amp; Engineering</p>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="contact" id="contact">
+        <div class="section-inner">
+            <p class="section-label">联系</p>
+            <h2 class="section-heading">联系我们</h2>
+            <p class="section-desc">欢迎合格投资者与合作伙伴与我们取得联系</p>
+            <div class="contact-grid">
+                <div class="contact-info animate-on-scroll">
+                    <div class="contact-item">
+                        <div class="contact-item-label">地址</div>
+                        <div class="contact-item-value">
+                            上海市浦东新区陆家嘴金融贸易区<br>
+                            世纪大道 100 号
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-item-label">邮箱</div>
+                        <div class="contact-item-value">
+                            <a href="mailto:contact@howfund.cn">contact@howfund.cn</a>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-item-label">电话</div>
+                        <div class="contact-item-value">
+                            +86 (21) XXXX-XXXX
+                        </div>
+                    </div>
+                </div>
+                <form class="contact-form animate-on-scroll" onsubmit="event.preventDefault(); alert('Thank you for your message. We will get back to you soon.');">
+                    <input type="text" class="contact-input" placeholder="姓名 / Name" required>
+                    <input type="email" class="contact-input" placeholder="邮箱 / Email" required>
+                    <input type="text" class="contact-input" placeholder="机构 / Organization">
+                    <textarea class="contact-input contact-textarea" placeholder="留言 / Message" required></textarea>
+                    <button type="submit" class="contact-submit">发送</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <img src="asset/LOGO.svg" alt="号方 HowFund" style="filter: brightness(0) invert(1);" onerror="this.style.display='none';">
+                    <p>
+                        号方（HowFund）—— 以数据科学驱动<br>
+                        以系统化方法论为根基的量化投资机构。
+                    </p>
+                </div>
+                <div>
+                    <div class="footer-col-title">快速链接</div>
+                    <ul class="footer-col-links">
+                        <li><a href="#about">关于</a></li>
+                        <li><a href="#strategies">策略</a></li>
+                        <li><a href="#tech">研究</a></li>
+                        <li><a href="#team">团队</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="footer-col-title">法律条款</div>
+                    <ul class="footer-col-links">
+                        <li><a href="#">隐私政策</a></li>
+                        <li><a href="#">使用条款</a></li>
+                        <li><a href="#">风险披露</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="footer-col-title">联系方式</div>
+                    <ul class="footer-col-links">
+                        <li><a href="mailto:contact@howfund.cn">邮箱</a></li>
+                        <li><a href="#contact">联系</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-bottom-left">
+                    &copy; 2026 号方 HowFund. 保留所有权利。
+                </div>
+                <div class="footer-bottom-right">
+                    <a href="#">隐私政策</a>
+                    <a href="#">使用条款</a>
+                </div>
+            </div>
+            <div class="footer-disclaimer">
+                <strong>风险提示：</strong>本网站所载信息仅供参考，不构成任何投资建议。过往业绩不预示未来表现。投资有风险，入市需谨慎。
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+            var navbar = document.getElementById('navbar');
+            var mobileBtn = document.getElementById('mobileMenuBtn');
+
+            window.addEventListener('scroll', function () {
+                if (window.scrollY > 20) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
+
+            function closeMobileMenu() {
+                var links = document.querySelector('.nav-links');
+                links.style.display = 'none';
+            }
+
+            function openMobileMenu() {
+                var links = document.querySelector('.nav-links');
+                links.style.display = 'flex';
+                links.style.flexDirection = 'column';
+                links.style.position = 'absolute';
+                links.style.top = '64px';
+                links.style.left = '0';
+                links.style.width = '100%';
+                links.style.backgroundColor = 'rgba(247, 247, 244, 0.98)';
+                links.style.padding = '24px 40px';
+                links.style.gap = '16px';
+                links.style.borderBottom = '1px solid var(--hairline)';
+            }
+
+            mobileBtn.addEventListener('click', function () {
+                var links = document.querySelector('.nav-links');
+                if (links.style.display === 'flex') {
+                    closeMobileMenu();
+                } else {
+                    openMobileMenu();
+                }
+            });
+
+            document.querySelectorAll('.nav-links a').forEach(function (link) {
+                link.addEventListener('click', function () {
+                    closeMobileMenu();
+                });
+            });
+
+            var observer = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.15,
+                rootMargin: '0px 0px -40px 0px'
+            });
+
+            document.querySelectorAll('.animate-on-scroll').forEach(function (el) {
+                observer.observe(el);
+            });
+        });
+    </script>
+
+</body>
+</html>
